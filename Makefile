@@ -3,7 +3,7 @@ GOPATH := $(shell pwd):$(shell pwd)/$(PROJECT_PATH)
 ENV = GOPATH=${GOPATH}
 
 router:
-	cd $(PROJECT_PATH)/router && ${ENV} go run kite.go
+	cd $(PROJECT_PATH)/router && ${ENV} go run routerkite.go
 
 get:
 	${ENV} go get github.com/koding/kite/kontrol/kontrol

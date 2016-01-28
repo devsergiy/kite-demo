@@ -1,27 +1,25 @@
 package kitewrapper
 
 import (
-	"demo/config"
+	conf "demo/config"
 	"fmt"
 	"net/url"
 
 	"github.com/koding/kite"
-	"github.com/koding/kite/kitekey"
+	"github.com/koding/kite/config"
 	"github.com/koding/kite/protocol"
 )
 
 // Helper class with methods to register and dial other kites
 type Wrapper struct {
 	*kite.Kite
-	cfg config.KiteConfig
+	cfg *conf.KiteConfig
 }
 
-func NewKiteWrapper(KontrolURL, KontrolUser string, cfg config.KiteConfig) *Wrapper {
+func NewKiteWrapper(cfg *conf.KiteConfig) *Wrapper {
 	k := kite.New(cfg.Name, cfg.Version)
+	k.Config = config.MustGet()
 	k.Config.Port = cfg.Port
-	k.Config.KiteKey, _ = kitekey.Read()
-	k.Config.KontrolURL = KontrolURL
-	k.Config.KontrolUser = KontrolUser
 
 	return &Wrapper{k, cfg}
 }

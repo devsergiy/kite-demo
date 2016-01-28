@@ -3,23 +3,20 @@ common: &common
   path: kite
   version: 1.0.0
 
-kontrol:
-  url: http://localhost:6000/kite
-  user: kontrol
-
-router:
-  name: router
-  port: 3000
-  <<: *common
-app:
-  name: app
-  port: 3001
-  <<: *common
-db:
-  name: db accessor
-  port: 3002
-  <<: *common
-auth:
-  name: auth
-  port: 3003
-  <<: *common
+kites:
+  router:
+    name: router
+    port: 3000
+    <<: *common
+  app:
+    name: app
+    port: 3001
+    <<: *common
+  db:
+    name: db accessor
+    port: 3002
+    <<: *common
+  auth:
+    name: auth
+    port: 3003
+    <<: *common

@@ -16,21 +16,14 @@ type KiteConfig struct {
 	Version string
 }
 
-type Config struct {
-	Kontrol struct {
-		URL  string
-		User string
-	}
-	Router KiteConfig
-	App    KiteConfig
-	DB     KiteConfig
-	Auth   KiteConfig
+type config struct {
+	Kites map[string]KiteConfig
 }
 
 const CONFIG_PATH = "../../conf/config.yml"
 
-func NewConfig() (*Config, error) {
-	config := &Config{}
+func NewConfig(kiteName string) (*KiteConfig, error) {
+	config := &config{}
 
 	filename, _ := filepath.Abs(CONFIG_PATH)
 	yamlFile, err := ioutil.ReadFile(filename)
@@ -45,5 +38,11 @@ func NewConfig() (*Config, error) {
 		return nil, err
 	}
 
-	return config, nil
+	kiteConf, ok := config.Kites[kiteName]
+	if !ok {
+		fmt.Println("No such kite config", kiteName)
+		return nil, err
+	}
+
+	return &kiteConf, nil
 }

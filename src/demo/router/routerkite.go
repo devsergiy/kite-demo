@@ -12,13 +12,13 @@ import (
 )
 
 func main() {
-	config, err := conf.NewConfig()
+	routerConfig, err := conf.NewConfig("router")
 	if err != nil {
 		fmt.Println("Error getting config", err)
 		return
 	}
 
-	k := kitewrapper.NewKiteWrapper(config.Kontrol.URL, config.Kontrol.User, config.Router)
+	k := kitewrapper.NewKiteWrapper(routerConfig)
 	err = k.RegisterToKontrol()
 	if err != nil {
 		fmt.Println("Failed to register", err)
