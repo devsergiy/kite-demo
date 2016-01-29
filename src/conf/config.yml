@@ -13,7 +13,7 @@ kites:
     port: 3001
     <<: *common
   db:
-    name: db accessor
+    name: db_accessor
     port: 3002
     <<: *common
   auth:
