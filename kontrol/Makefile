@@ -19,9 +19,6 @@ setup:
 run:
 	${KONTROL_ENV} ../bin/kontrol
 
-get:
-	cd .. && ${ENV} go get github.com/koding/kite/kontrol/kontrol
-
 db_schema:
 	psql postgres -f db/001-schema.sql -U postgres
 
