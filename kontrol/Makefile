@@ -11,10 +11,7 @@ PG_NAME = POSTGRES_DBNAME="kontrol"
 PG_UNAME = POSTGRES_USERNAME="postgres"
 PG_PASS = POSTGRES_PASSWORD="postgres"
 
-KONTROL_ENV = $(addprefix KONTROL_, ${PORT} ${UMANE} ${STORE} ${URL} ${PUB_KEY} ${PRIVATE_KEY} ${PG_NAME} ${PG_UNAME} ${PG_PASS})
-
-kontrol_build:
-	cd ../src/github.com/koding/kite/kontrol && ${ENV} go build
+KONTROL_ENV = $(addprefix KONTROL_, ${PORT} ${UNAME} ${STORE} ${URL} ${PUB_KEY} ${PRIVATE_KEY} ${PG_NAME} ${PG_UNAME} ${PG_PASS})
 
 setup:
 	${KONTROL_ENV} ../bin/kontrol --initial
