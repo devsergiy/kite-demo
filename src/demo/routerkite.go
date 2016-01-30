@@ -9,6 +9,7 @@ import (
 
 	conf "demo/config"
 	"demo/kitewrapper"
+	"demo/router"
 )
 
 func main() {
@@ -38,46 +39,15 @@ func main() {
 	}
 
 	k.HandleHTTPFunc("/login", func(w http.ResponseWriter, r *http.Request) {
-		// AUTH: login and return correct JWT
-
-		params := map[string]string{
-			"user": r.FormValue("username"),
-			"pass": r.FormValue("password"),
-		}
-
-		result, err := authKite.Tell("login", params)
-		if err != nil {
-			fmt.Println("Failed to login", err)
-			return
-		}
-
-		fmt.Println(result) // TODO
+		router.LoginHandler(authKite, w, r)
 	})
 
 	k.HandleHTTPFunc("/profile", func(w http.ResponseWriter, r *http.Request) {
-		result, err := authKite.Tell("profile")
-		if err != nil {
-			fmt.Println("Failed to get profile", err)
-			return
-		}
-
-		fmt.Println(result) // TODO
+		router.ProfileHandler(authKite, w, r)
 	})
 
 	k.HandleHTTPFunc("/todos", func(w http.ResponseWriter, r *http.Request) {
-		token := r.Header.Get("token")
-
-		// TODO: dial to auth and validate token
-		_ = authKite
-		fmt.Println(token)
-
-		result, err := appKite.Tell("todos")
-		if err != nil {
-			fmt.Println("Failed to get todos", err)
-		}
-
-		json, _ := result.MarshalJSON()
-		w.Write(json)
+		router.TodosHandler(appKite, w, r)
 	})
 
 	k.Run()

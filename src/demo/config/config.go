@@ -20,7 +20,7 @@ type config struct {
 	Kites map[string]KiteConfig
 }
 
-const CONFIG_PATH = "../../conf/config.yml"
+const CONFIG_PATH = "../conf/config.yml"
 
 func NewConfig(kiteName string) (*KiteConfig, error) {
 	config := &config{}
