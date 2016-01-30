@@ -1,19 +1,17 @@
-// Service number #1 The router: this service should be the first endpoint to the
-// service, it should be able to route the request to the appropriate service.
+// Service number #3 The app: this service should expose 1 endpoint1 to return
+// a small to-do action list and should only be access with a valid JWT, it should
+// get the data from the DB Accessor service
 
 package main
 
 import (
 	"fmt"
-	"net/http"
 
 	conf "demo/config"
 	"demo/kitewrapper"
 
 	"github.com/koding/kite"
 )
-
-var Db *kite.Kite
 
 func main() {
 	routerConfig, err := conf.NewConfig("app")
@@ -29,10 +27,19 @@ func main() {
 		return
 	}
 
+	dbKite, err := k.FindAndDial("db")
+	if err != nil {
+		fmt.Println("Failed to dial db service", err)
+		// return
+	}
+
 	// Add our handler method
-	k.HandleFunc("todos", func(r *kite.Request)(interface{}, error) {
+	k.HandleFunc("todos", func(r *kite.Request) (interface{}, error) {
+		// TODO: dial to DB and get items list
+		_ = dbKite
+
+		return []string{"one", "two"}, nil
 	})
 
 	k.Run()
 }
-

@@ -34,7 +34,7 @@ func main() {
 	authKite, err := k.FindAndDial("auth")
 	if err != nil {
 		fmt.Println("Failed to dial auth service", err)
-		return
+		// return
 	}
 
 	k.HandleHTTPFunc("/login", func(w http.ResponseWriter, r *http.Request) {
@@ -65,13 +65,19 @@ func main() {
 	})
 
 	k.HandleHTTPFunc("/todos", func(w http.ResponseWriter, r *http.Request) {
+		token := r.Header.Get("token")
+
+		// TODO: dial to auth and validate token
+		_ = authKite
+		fmt.Println(token)
+
 		result, err := appKite.Tell("todos")
 		if err != nil {
 			fmt.Println("Failed to get todos", err)
-			return
 		}
 
-		fmt.Println(result) // TODO
+		json, _ := result.MarshalJSON()
+		w.Write(json)
 	})
 
 	k.Run()
