@@ -34,7 +34,7 @@ func main() {
 		// return
 	}
 
-	dbKite, err := k.FindAndDial("db")
+	dbKite, err := k.FindAndDial("db_accessor")
 	if err != nil {
 		fmt.Println("Failed to dial db service", err)
 		// return

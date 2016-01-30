@@ -2,8 +2,8 @@ package config
 
 import (
 	"fmt"
-	"io/ioutil"
-	"path/filepath"
+
+	"demo/helpers"
 
 	yaml "gopkg.in/yaml.v2"
 )
@@ -25,10 +25,8 @@ const CONFIG_PATH = "../conf/config.yml"
 func NewConfig(kiteName string) (*KiteConfig, error) {
 	config := &config{}
 
-	filename, _ := filepath.Abs(CONFIG_PATH)
-	yamlFile, err := ioutil.ReadFile(filename)
+	yamlFile, err := helpers.GetYamlContent(CONFIG_PATH)
 	if err != nil {
-		fmt.Println("No such file %s", filename)
 		return nil, err
 	}
 

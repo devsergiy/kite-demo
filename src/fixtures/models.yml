@@ -1,0 +1,9 @@
+user:
+  id: '1'
+  name: Sammy The Bug
+  age: '20'
+todos:
+  - cleanup things
+  - buy a new phone
+  - sort pencils
+  - change the habits
