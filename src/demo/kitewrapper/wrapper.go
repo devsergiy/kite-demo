@@ -45,7 +45,7 @@ func (w *Wrapper) RegisterToKontrol() error {
 // Finds kite by name and connects to it
 func (w *Wrapper) FindAndDial(name string) (*kite.Client, error) {
 	kites, err := w.GetKites(&protocol.KontrolQuery{
-		Name: w.cfg.Name,
+		Name: name,
 	})
 	if err != nil {
 		return nil, err
