@@ -11,7 +11,7 @@ func GetYamlContent(path string) ([]byte, error) {
 	content, err := ioutil.ReadFile(filename)
 
 	if err != nil {
-		fmt.Println("No such file %s", filename)
+		fmt.Printf("No such file %s\n", filename)
 		return nil, err
 	}
 
