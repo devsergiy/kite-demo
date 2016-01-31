@@ -15,6 +15,5 @@ func TodosHandler(app *kite.Client, w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Failed to get todos", err)
 	}
 
-	json, _ := result.MarshalJSON()
-	w.Write(json)
+	w.Write(result.Raw)
 }

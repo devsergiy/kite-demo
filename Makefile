@@ -8,6 +8,9 @@ router:
 app:
 	cd $(PROJECT_PATH) && ${ENV} go run appkite.go
 
+db:
+	cd $(PROJECT_PATH) && ${ENV} go run dbkite.go
+
 get:
 	${ENV} go get github.com/koding/kite/kontrol/kontrol
 	${ENV} go get github.com/koding/kite/
