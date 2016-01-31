@@ -29,7 +29,7 @@ func main() {
 	appKite, err := k.FindAndDial("app")
 	if err != nil {
 		fmt.Println("Failed to dial app service", err)
-		return
+		// return
 	}
 
 	authKite, err := k.FindAndDial("auth")

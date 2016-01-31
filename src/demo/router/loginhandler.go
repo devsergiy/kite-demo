@@ -1,6 +1,7 @@
 package router
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -8,8 +9,6 @@ import (
 )
 
 func LoginHandler(auth *kite.Client, w http.ResponseWriter, r *http.Request) {
-	// AUTH: login and return correct JWT
-
 	params := map[string]string{
 		"user": r.FormValue("username"),
 		"pass": r.FormValue("password"),
@@ -17,9 +16,14 @@ func LoginHandler(auth *kite.Client, w http.ResponseWriter, r *http.Request) {
 
 	result, err := auth.Tell("login", params)
 	if err != nil {
-		fmt.Println("Failed to login", err)
+		fmt.Println("Failed to login:", err)
+
+		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 
-	fmt.Println(result) // TODO
+	token, _ := result.String()
+	json, _ := json.Marshal(map[string]string{"token": token})
+
+	w.Write(json)
 }
