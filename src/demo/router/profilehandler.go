@@ -13,8 +13,9 @@ func ProfileHandler(auth *kite.Client, w http.ResponseWriter, r *http.Request) {
 	result, err := auth.Tell("profile", token)
 	if err != nil {
 		fmt.Println("Failed to get profile", err)
+		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 
-	fmt.Println(result) // TODO
+	w.Write(result.Raw)
 }

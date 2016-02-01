@@ -4,6 +4,7 @@ import (
 	conf "demo/config"
 	"fmt"
 	"net/url"
+	"time"
 
 	"github.com/koding/kite"
 	"github.com/koding/kite/config"
@@ -44,6 +45,9 @@ func (w *Wrapper) RegisterToKontrol() error {
 
 // Finds kite by name and connects to it
 func (w *Wrapper) FindAndDial(name string) (*kite.Client, error) {
+	// Give kites time to register to kontrol
+	time.Sleep(time.Second)
+
 	kites, err := w.GetKites(&protocol.KontrolQuery{
 		Name: name,
 	})

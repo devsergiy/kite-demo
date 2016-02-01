@@ -11,6 +11,11 @@ app:
 db:
 	cd $(PROJECT_PATH) && ${ENV} go run dbkite.go
 
+auth:
+	cd $(PROJECT_PATH) && ${ENV} go run authkite.go
+
+run: db auth app router
+
 get:
 	${ENV} go get github.com/koding/kite/kontrol/kontrol
 	${ENV} go get github.com/koding/kite/
@@ -18,8 +23,8 @@ get:
 	${ENV} go get gopkg.in/yaml.v2
 	${ENV} go get -u golang.org/x/tools/cmd/goimports
 
-# test:
-# 	cd $(PROJECT_PATH) && ${ENV} go test -v -race
+test:
+	cd $(PROJECT_PATH)/auth && ${ENV} go test -v
 
 # webtest:
 # 	cd $(PROJECT_PATH) && ${ENV} goconvey
