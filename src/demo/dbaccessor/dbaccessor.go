@@ -35,7 +35,7 @@ func (a *DBAccessor) QueryHandler(r *kite.Request) (interface{}, error) {
 
 	if entity == "todos" {
 		return a.Todos, nil
-	} else if entity == "user" {
+	} else if entity == "profile" {
 		return a.User, nil
 	}
 

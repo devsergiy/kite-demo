@@ -1,12 +1,25 @@
 package app
 
-import "github.com/koding/kite"
+import (
+	"errors"
+
+	"github.com/koding/kite"
+)
+
+var BadToken = errors.New("Bad Token")
 
 func TodosHandler(auth *kite.Client, db *kite.Client, r *kite.Request) (interface{}, error) {
-	// TODO: dial to auth and validate token
+	token, err := r.Args.One().String()
+	if err != nil {
+		return nil, BadToken
+	}
 
-	// TODO: dial to DB and get items list
-	result, _ := db.Tell("query", "todos")
+	result, _ := auth.Tell("validateToken", token)
+	if !result.MustBool() {
+		return nil, BadToken
+	}
+
+	result, _ = db.Tell("query", "todos")
 
 	var (
 		arr, _ = result.Slice()

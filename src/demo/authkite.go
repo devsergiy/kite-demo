@@ -20,6 +20,8 @@ const (
 	Pass = "password"
 )
 
+var BadCredentials = errors.New("Bad credentials")
+
 func main() {
 	authorizer := auth.NewAuthorizer()
 
@@ -60,11 +62,23 @@ func main() {
 			return authorizer.Token, nil
 		}
 
-		return nil, errors.New("Bad credentials")
+		return nil, BadCredentials
 	})
 
 	k.HandleFunc("profile", func(r *kite.Request) (interface{}, error) {
-		result, _ := dbKite.Tell("query", "profile")
+		token, err := r.Args.One().String()
+		if err != nil {
+			return nil, BadCredentials
+		}
+
+		if !authorizer.Validate(token) {
+			return nil, BadCredentials
+		}
+
+		result, err := dbKite.Tell("query", "profile")
+		if err != nil {
+			return nil, err
+		}
 
 		var (
 			profileMap, _ = result.Map()
@@ -79,7 +93,13 @@ func main() {
 	})
 
 	k.HandleFunc("validateToken", func(r *kite.Request) (interface{}, error) {
-		return nil, nil
+		token, err := r.Args.One().String()
+
+		if err != nil {
+			return false, BadCredentials
+		}
+
+		return authorizer.Validate(token), nil
 	})
 
 	k.Run()
