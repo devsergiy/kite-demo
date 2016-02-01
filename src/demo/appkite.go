@@ -28,17 +28,23 @@ func main() {
 		return
 	}
 
-	authKite, err := k.FindAndDial("auth")
-	if err != nil {
-		fmt.Println("Failed to dial auth service", err)
-		// return
-	}
+	var authKite, dbKite *kite.Client
 
-	dbKite, err := k.FindAndDial("db_accessor")
-	if err != nil {
-		fmt.Println("Failed to dial db service", err)
-		// return
-	}
+	go func() {
+		var err error
+		authKite, err = k.FindAndDial("auth")
+		if err != nil {
+			fmt.Println("Failed to dial auth service", err)
+		}
+	}()
+
+	go func() {
+		var err error
+		dbKite, err = k.FindAndDial("db_accessor")
+		if err != nil {
+			fmt.Println("Failed to dial db service", err)
+		}
+	}()
 
 	// Add our handler method
 	k.HandleFunc("todos", func(r *kite.Request) (interface{}, error) {

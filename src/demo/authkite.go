@@ -36,11 +36,17 @@ func main() {
 		return
 	}
 
-	dbKite, err := k.FindAndDial("db_accessor")
-	if err != nil {
-		fmt.Println("Failed to dial db service", err)
-		// return
-	}
+	var dbKite *kite.Client
+
+	go func() {
+		var err error
+
+		dbKite, err = k.FindAndDial("db_accessor")
+		if err != nil {
+			fmt.Println("Failed to dial db service", err)
+			// return
+		}
+	}()
 
 	// Add our handler method
 	k.HandleFunc("login", func(r *kite.Request) (interface{}, error) {
